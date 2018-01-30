@@ -34,8 +34,11 @@ router.post('/', function(req, res, next) {
     		var enteredTime = Math.round(new Date(sweepUser._id.getTimestamp().getTime() / 1000));
 	    	WinnerSlot
 		    .findOne({ 
-	    		lucky_timestamp: { $lt: enteredTime } 
+	    		lucky_timestamp: { $lt: enteredTime },
+	    		ocuupied_timestamp: null
 	    	}).then((slot) => {
+	    		console.log(enteredTime);
+	    		console.log(slot);
 	    		WinnerSlot
 	    		.findByIdAndUpdate(slot._id, 
 	    			{
@@ -45,6 +48,8 @@ router.post('/', function(req, res, next) {
 	    				  }
 	    			})
 	    		.then((newSlot) => {
+	    			console.log(enteredTime);
+	    			console.log(newSlot);
 			      console.log("updated winner slot");
 			    }).catch((e) => {
 			      console.log("unable updated winner slot");
@@ -58,6 +63,7 @@ router.post('/', function(req, res, next) {
 	    				  }
 	    			})
 	    		.then((updatedSweepUser) => {
+	    			console.log(updatedSweepUser);
 			      console.log("updated sweep user");
 			    }).catch((e) => {
 			      console.log("unable update sweep user");
