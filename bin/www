@@ -24,16 +24,16 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-cluster(server)
-  .use(cluster.logger('logs'))
-  .use(cluster.stats())
-  .use(cluster.pidfiles('pids'))
-  .use(cluster.cli())
-  .use(cluster.repl(8888))
-  .listen(3000);
-// server.listen(port);
-// server.on('error', onError);
-// server.on('listening', onListening);
+var numCPUs = 4;
+if (cluster.isMaster) {
+    for (var i = 0; i < numCPUs; i++) {
+        cluster.fork();
+    }
+} else {
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+}
 
 /**
  * Normalize a port into a number, string, or false.
