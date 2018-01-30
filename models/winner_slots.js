@@ -18,7 +18,7 @@ var WinnerSlot = mongoose.model("winner_slots", {
         default: null
     },
     entry_id: {
-        type: Number,
+        type: String,
         default: null
     }
 });
